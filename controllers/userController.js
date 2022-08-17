@@ -1,6 +1,7 @@
 const UserModel = require('../models/user_model')
 const bcrypt = require('bcrypt')
 const validations = require('../utils/validations')
+const jwt = require('jsonwebtoken')
 
   module.exports = {
     async registerUser (req, res, next) {
@@ -69,5 +70,33 @@ const validations = require('../utils/validations')
 
     async loginUser (req, res, next) {
 
+        const email = req.query.email
+        const password = req.query.password
+        const user = await UserModel.findOne({email})
+
+        const correctPassword = user === null 
+        ? false
+        : await bcrypt.compare(password, user.password)
+
+        if(!(user && correctPassword)) {
+            res.status(401).json({
+                success: false,
+                message: "incorrect email or password",
+                data: {}
+            })
+        } else {
+            const tokenData = {
+                id: user._id,
+                name: user.name,
+                lastname: user.lastname,
+                email: user.lastname,
+                role: user.role
+            }
+            res.status(201).json({
+                success: true,
+                message: "user logged",
+                token: jwt.sign(tokenData, process.env.TOKEN_SECRET)
+            })
+        }
     }
   }
