@@ -22,4 +22,5 @@ userRoleSchema.plugin(uniqueValidator)
 
 const UserRoleModel = model('user_role', userRoleSchema)
 
+
 module.exports = UserRoleModel

@@ -109,16 +109,26 @@ const jwt = require('jsonwebtoken')
             
             let token = null
             let decodeToken = null
+            let userId
             if(authorization && authorization.toLowerCase().startsWith('bearer')) {
                 token = authorization.split(' ')[1]
             }
             
             decodeToken = jwt.decode(token, process.env.TOKEN_SECRET)
+            userId = decodeToken.id
             
             if(!token || !decodeToken.id){
                 validations.validateResponse(res, "invalid token")
             } else {
-                console.log(decodeToken.id)
+                const user = await UserModel.findOne({_id: userId}).populate('role', {
+                    userRole: 1
+                })
+                
+                res.status(200).json({
+                    success: true,
+                    message: "finded user",
+                    data: user
+                })
             }
 
         } catch(err) {
