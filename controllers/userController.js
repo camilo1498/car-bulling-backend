@@ -1,4 +1,5 @@
 const UserModel = require('../models/user_model')
+const UserRoleModel = require('../models/user_role_model')
 const bcrypt = require('bcrypt')
 const validations = require('../utils/validations')
 const jwt = require('jsonwebtoken')
@@ -8,7 +9,10 @@ const jwt = require('jsonwebtoken')
         try {
             /// parse query body
         const { name, lastname, email, password, gender, address, phoneNumber } = req.body
-    
+        
+        /// get default user role
+        const roleName = "client"
+        const role = await UserRoleModel.findOne({ roleName })
 
         /// validate paramaters
         if (name === undefined || name === null || name.length === 0) {
@@ -27,10 +31,10 @@ const jwt = require('jsonwebtoken')
             validations.validateResponse(res, "cannot get the parameter 'address'")
         } else if (phoneNumber === undefined || phoneNumber === null || phoneNumber.length === 0) {
             validations.validateResponse(res, "cannot get the parameter 'phoneNumber'")
-        }
-        else {
+        } else {
             /// encrypt password
             const hashPassword = await bcrypt.hash(password, 10)
+
 
             /// instance model object
             const user = new UserModel({
@@ -41,7 +45,7 @@ const jwt = require('jsonwebtoken')
                 gender,
                 phoneNumber,
                 address,
-                role: null
+                role: role._id
             })
             /// save in db
             await user.save().then(response => {
@@ -60,17 +64,13 @@ const jwt = require('jsonwebtoken')
             })
         }
         } catch(e) {
-            res.status(400).json({
-                success: false,
-                message: 'error while user registration',
-                data: []
-            })
+            validations.validateResponse(res, "error while user registration, please contact with support")
         }
     },
 
     async loginUser (req, res, next) {
-
-        const email = req.query.email
+        try{
+            const email = req.query.email
         const password = req.query.password
         const user = await UserModel.findOne({email})
 
@@ -97,6 +97,32 @@ const jwt = require('jsonwebtoken')
                 message: "user logged",
                 token: jwt.sign(tokenData, process.env.TOKEN_SECRET)
             })
+        }
+        } catch(err) {
+            validations.validateResponse(res, "error in user login")
+        }
+    },
+
+    async getUserProfile(req, res, next) {
+        try {
+            const authorization = req.headers.authorization
+            
+            let token = null
+            let decodeToken = null
+            if(authorization && authorization.toLowerCase().startsWith('bearer')) {
+                token = authorization.split(' ')[1]
+            }
+            
+            decodeToken = jwt.decode(token, process.env.TOKEN_SECRET)
+            
+            if(!token || !decodeToken.id){
+                validations.validateResponse(res, "invalid token")
+            } else {
+                console.log(decodeToken.id)
+            }
+
+        } catch(err) {
+            validations.validateResponse(res, "error while getting user profile info")
         }
     }
   }

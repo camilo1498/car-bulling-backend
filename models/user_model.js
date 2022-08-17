@@ -19,10 +19,10 @@ const userSchema = new Schema({
     favourites: String,
     saved: String,
     chats: String,
-    role: {
+    role: [{
         type: Schema.Types.ObjectId,
         ref: 'user_role'
-    }
+    }]
 })
 
 userSchema.set('toJSON', {

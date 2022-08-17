@@ -3,7 +3,11 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 const userRoleSchema = new Schema({
     roleName: String,
-    createdAt: Date.now
+    roleDescription: String,
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    }
 })
 
 userRoleSchema.set('toJSON', {
