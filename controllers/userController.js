@@ -1,5 +1,5 @@
-const UserModel = require('../models/user_model')
-const UserRoleModel = require('../models/user_role_model')
+const UserModel = require('../models/user_models/user_model')
+const UserRoleModel = require('../models/role_models/user_role_model')
 const bcrypt = require('bcrypt')
 const validations = require('../utils/validations')
 const jwt = require('jsonwebtoken')
@@ -121,7 +121,7 @@ const jwt = require('jsonwebtoken')
                 validations.validateResponse(res, "invalid token")
             } else {
                 const user = await UserModel.findOne({_id: userId}).populate('role', {
-                    userRole: 1
+                    roleName: 1
                 })
                 
                 res.status(200).json({

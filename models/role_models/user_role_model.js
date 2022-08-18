@@ -4,7 +4,15 @@ const uniqueValidator = require('mongoose-unique-validator')
 const userRoleSchema = new Schema({
     roleName: String,
     roleDescription: String,
+    permissions: [{
+        type: Schema.Types.ObjectId,
+        ref: 'role_permission'
+    }],
     createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    updatedAt: {
         type: Date,
         default: Date.now()
     }
