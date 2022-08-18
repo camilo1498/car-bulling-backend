@@ -3,6 +3,10 @@ const http = require('http');
 const cors = require('cors')
 const Sentry = require('@sentry/node')
 const Tracing = require('@sentry/tracing')
+const passport = require('passport')
+const logger = require('morgan');
+const session = require('express-session')
+
 
 /// initialize mongo database
 require('./database/db_connection')
@@ -32,19 +36,45 @@ Sentry.init({
     tracesSampleRate: 1.0
   })
 
+const port = process.env.PORT || 3001
+
 // RequestHandler creates a separate execution context using domains, so that every
 // transaction/span/breadcrumb is attached to its own Hub instance
 app.use(Sentry.Handlers.requestHandler())
 // TracingHandler creates a trace for every incoming request
 app.use(Sentry.Handlers.tracingHandler())
 
+app.use(logger('dev'));
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({
+  extended: true
+}))
+app.use(session({
+  secret: process.env.TOKEN_SECRET,
+  resave: false,
+  saveUninitialized: true
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.disable('x-powered-by');
+app.set('port', port);
+
+require('./middleware/passport')(passport)
+
 userroutes(app)
 roleRoutes(app)
 
-const port = process.env.PORT || 3001
+
+
 
 server.listen(port, function() {
     console.log('Anitialize server aplication ' + port)
 })
+
+// ERROR HANDLER
+app.use((err, req, res, next) => {
+    console.log(err);
+    res.status(err.status || 500).send(err.stack);
+});
