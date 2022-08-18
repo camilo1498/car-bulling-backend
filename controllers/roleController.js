@@ -72,7 +72,30 @@ module.exports = {
 
     async getAllroles(req, res, next) {
         try {
-            await UserRoleModel.find().populate('permissions').then(response => {
+            await UserRoleModel.find({}).populate('permissions',{
+                permissionName: 1
+            }).then(response => {
+                res.status(202).json({
+                    success: true,
+                    message: 'Role list',
+                    data: response
+                })
+            }).catch(err => {
+                validations.validateResponse(res, err)
+            })
+
+        } catch (e) {
+            validations.validateResponse(res, 'Error while getting roles, please contact with support')
+        }
+    },
+
+    async getRoleById(req, res, next) {
+
+        const { id } = req.query
+        try {
+            await UserRoleModel.findById({_id: id}).populate('permissions',{
+                permissionName: 1
+            }).then(response => {
                 res.status(202).json({
                     success: true,
                     message: 'Role list',

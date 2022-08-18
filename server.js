@@ -4,7 +4,11 @@ const cors = require('cors')
 const Sentry = require('@sentry/node')
 const Tracing = require('@sentry/tracing')
 
+/// initialize mongo database
 require('./database/db_connection')
+
+/// initialize models
+require('./models/role_models/role_permission_model')
 
 const app = express();
 const server = http.createServer(app);
@@ -12,6 +16,7 @@ const server = http.createServer(app);
 /// routes
 const userroutes = require('./routes/userRoutes')
 const roleRoutes = require('./routes/roleRoutes')
+
 
 Sentry.init({
     dsn: 'https://ac034ebd99274911a8234148642e044c@o537348.ingest.sentry.io/5655435',
