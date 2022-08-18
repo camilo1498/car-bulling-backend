@@ -20,6 +20,7 @@ const server = http.createServer(app);
 /// routes
 const userroutes = require('./routes/userRoutes')
 const roleRoutes = require('./routes/roleRoutes')
+const permissionRoleRoutes = require('./routes/permissionRoleRoute')
 
 
 Sentry.init({
@@ -65,6 +66,7 @@ require('./middleware/passport')(passport)
 
 userroutes(app)
 roleRoutes(app)
+permissionRoleRoutes(app)
 
 
 
