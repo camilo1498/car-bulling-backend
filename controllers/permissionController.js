@@ -90,7 +90,7 @@ module.exports = {
                 res.status(201).json({
                     success: true,
                     message: 'success',
-                    data: response
+                    data: response ?? {}
                 }) 
             }).catch( err => {
                 validations.validateResponse(res, err)
