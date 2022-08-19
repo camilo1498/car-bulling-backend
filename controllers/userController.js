@@ -5,7 +5,7 @@ const validations = require('../utils/validations')
 const jwt = require('jsonwebtoken')
 
   module.exports = {
-    async registerUser (req, res, next) {
+    async registerUser (req, res) {
         try {
             /// parse query body
         const { name, lastname, email, password, gender, address, phoneNumber } = req.body
@@ -32,16 +32,12 @@ const jwt = require('jsonwebtoken')
         } else if (phoneNumber === undefined || phoneNumber === null || phoneNumber.length === 0) {
             validations.validateResponse(res, "cannot get the parameter 'phoneNumber'")
         } else {
-            /// encrypt password
-            const hashPassword = await bcrypt.hash(password, 10)
-
-
             /// instance model object
             const user = new UserModel({
                 name,
                 lastname,
                 email,
-                password: hashPassword,
+                password,
                 gender,
                 phoneNumber,
                 address,
@@ -68,7 +64,7 @@ const jwt = require('jsonwebtoken')
         }
     },
 
-    async loginUser (req, res, next) {
+    async loginUser (req, res) {
         try{
             const email = req.query.email
         const password = req.query.password
@@ -76,7 +72,7 @@ const jwt = require('jsonwebtoken')
 
         const correctPassword = user === null 
         ? false
-        : await bcrypt.compare(password, user.password)
+        : await UserModel.comparePassword(password, user.password)
 
         if(!(user && correctPassword)) {
             res.status(401).json({
@@ -95,7 +91,7 @@ const jwt = require('jsonwebtoken')
             res.status(201).json({
                 success: true,
                 message: "user logged",
-                token: jwt.sign(tokenData, process.env.TOKEN_SECRET)
+                token: jwt.sign(tokenData, process.env.TOKEN_SECRET, { expiresIn: '30d' })
             })
         }
         } catch(err) {
@@ -103,7 +99,7 @@ const jwt = require('jsonwebtoken')
         }
     },
 
-    async getUserProfile(req, res, next) {
+    async getUserProfile(req, res) {
         try {
             const authorization = req.headers.authorization
             
