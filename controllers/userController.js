@@ -48,14 +48,14 @@ const jwt = require('jsonwebtoken')
                 res.status(201).json({
                     success: true,
                     message: "user saved successfuly",
-                    data: response
+                    data: response ?? {}
                 })
             }).catch(err => {
             
                 res.status(400).json({
                     success: false,
                     message: err['message'],
-                    data: []
+                    data: {}
                 })
             })
         }
@@ -123,7 +123,7 @@ const jwt = require('jsonwebtoken')
                 res.status(200).json({
                     success: true,
                     message: "finded user",
-                    data: user
+                    data: user ?? {}
                 })
             }
 

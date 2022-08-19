@@ -16,7 +16,7 @@ module.exports = {
                 res.status(201).json({
                     success: true,
                     message: 'Role was created successfuly',
-                    data: response
+                    data: response ?? {}
                 })
             }).catch(err => {
                 validations.validateResponse(res, err)
@@ -42,7 +42,7 @@ module.exports = {
                 res.status(202).json({
                     success: true,
                     message: 'Role was update successfuly',
-                    data: response
+                    data: response ?? {}
                 })
             }).catch(err => {
                 validations.validateResponse(res, err)
@@ -60,7 +60,7 @@ module.exports = {
                 res.status(202).json({
                     success: true,
                     message: 'Role was deleted successfuly',
-                    data: response
+                    data: response ?? {}
                 })
             }).catch(err => {
                 validations.validateResponse(res, err)
@@ -78,7 +78,7 @@ module.exports = {
                 res.status(202).json({
                     success: true,
                     message: 'Role list',
-                    data: response
+                    data: response ?? {}
                 })
             }).catch(err => {
                 validations.validateResponse(res, err)
@@ -99,7 +99,7 @@ module.exports = {
                 res.status(202).json({
                     success: true,
                     message: 'Role list',
-                    data: response
+                    data: response ?? {}
                 })
             }).catch(err => {
                 validations.validateResponse(res, err)

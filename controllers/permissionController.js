@@ -15,7 +15,7 @@ module.exports = {
                 res.status(201).json({
                     success: true,
                     message: 'permission was created successfuly',
-                    data: response
+                    data: response ?? {}
                 })
             }).catch( err => {
                 validations.validateResponse(res, err)
@@ -39,7 +39,7 @@ module.exports = {
                 res.status(201).json({
                     success: true,
                     message: 'permission was updated successfuly',
-                    data: response
+                    data: response ?? {}
                 })
             }).catch( err => {
                 validations.validateResponse(res, err)
@@ -57,7 +57,7 @@ module.exports = {
                 res.status(201).json({
                     success: true,
                     message: 'permission was deleted successfuly',
-                    data: response
+                    data: response ?? {}
                 })
             }).catch( err => {
                 validations.validateResponse(res, err)
@@ -73,7 +73,7 @@ module.exports = {
                 res.status(201).json({
                     success: true,
                     message: 'success',
-                    data: response
+                    data: response ?? {}
                 }) 
             }).catch( err => {
                 validations.validateResponse(res, err)
