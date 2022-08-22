@@ -1,4 +1,4 @@
-const { Schema , model} = require('mongoose')
+const { Schema, model } = require('mongoose')
 const paginate = require('mongoose-paginate-v2')
 
 const postSchema = new Schema({
@@ -60,11 +60,8 @@ const postSchema = new Schema({
         required: true
     },
     contact_info: {
-        type: {
-            agent_name: String,
-            phone_number: String
-        },
-        required: true
+        agent_name: String,
+        phone_number: String
     },
     available_vehicle: {
         type: Boolean,
