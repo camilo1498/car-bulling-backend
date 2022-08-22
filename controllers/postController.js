@@ -88,6 +88,12 @@ module.exports = {
                             data: getPost
                         })
                     })
+                } else {
+                    res.status(200).json({
+                        success: true,
+                        message: 'data found',
+                        data: getPost
+                    })
                 }
             
             } else {
