@@ -3,7 +3,7 @@ const paginate = require('mongoose-paginate-v2')
 
 const postSchema = new Schema({
     images: {
-        type: Array,
+        type: [String],
         required: true
     },
     brand: {
@@ -15,11 +15,11 @@ const postSchema = new Schema({
         type: Number,
         default: 0
     },
-    likeCount: [{
+    like_count: [{
         type: Schema.Types.ObjectId,
         ref: 'users'
     }],
-    viewCount: [{
+    view_count: [{
         type: Schema.Types.ObjectId,
         ref: 'users'
     }],
@@ -31,10 +31,6 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
-    releaseYear: {
-        type: Number,
-        required: true
-    },
     description: {
         type: String,
         required: true
@@ -42,7 +38,7 @@ const postSchema = new Schema({
     data_sheet: {
         brand: String,
         model: String,
-        release_date: Number,
+        release_date: String,
         color: String,
         fuel_type: String,
         total_doors: Number,
@@ -64,7 +60,10 @@ const postSchema = new Schema({
         required: true
     },
     contact_info: {
-        type: Array,
+        type: {
+            agent_name: String,
+            phone_number: String
+        },
         required: true
     },
     available_vehicle: {
@@ -72,8 +71,13 @@ const postSchema = new Schema({
         default: true
     },
     is_new: {
-        typeof: Boolean,
+        type: Boolean,
         default: true
+    },
+    created_by: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'users'
     }
 }, {
     timestamps: true,

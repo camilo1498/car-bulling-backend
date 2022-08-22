@@ -10,6 +10,11 @@ const commentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'users',
         required: true
+    },
+    post_reference: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'post'
     }
 }, {
     timestamps: true,
