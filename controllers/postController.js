@@ -112,7 +112,15 @@ module.exports = {
 
     async getAll(req, res) {
         try {
-            await PostModel.find({}).then(response => {
+            await PostModel.find({}).select([
+                "images",
+                "name",
+                "price",
+                "data_sheet.release_date",
+                "data_sheet.mileage",
+                "concessionarie_location",
+                "is_new"
+            ]).then(response => {
                 res.status(200).json({
                     success: true,
                     message: 'getting all post',
@@ -276,48 +284,48 @@ module.exports = {
 
             const { id } = req.query
 
-            await UserModel.findById({ _id: decodeToken.id }).then( async (response) => {
+            await UserModel.findById({ _id: decodeToken.id }).then(async (response) => {
                 console.log(response)
-                if(response.saved_post.includes(id)) {
+                if (response.saved_post.includes(id)) {
                     await UserModel.findByIdAndUpdate({ _id: decodeToken.id }, {
                         $pull: {
                             saved_post: id
                         }
-                    }, { new: true }).then( saveRes => {
+                    }, { new: true }).then(saveRes => {
                         res.status(200).json({
                             success: true,
                             message: 'post unsaved',
                             data: {
-                                saved: false 
+                                saved: false
                             }
                         })
-                    }).catch( err => {
-                        validations.validateResponse(res, err, { data: { saved: false} })
+                    }).catch(err => {
+                        validations.validateResponse(res, err, { data: { saved: false } })
                     })
                 } else {
                     await UserModel.findByIdAndUpdate({ _id: decodeToken.id }, {
                         $push: {
                             saved_post: id
                         }
-                    }, { new: true }).then( saveRes => {
+                    }, { new: true }).then(saveRes => {
                         res.status(200).json({
                             success: true,
                             message: 'post saved',
                             data: {
-                                saved: true 
+                                saved: true
                             }
                         })
-                    }).catch( err => {
-                        validations.validateResponse(res, err, { data: { saved: false} })
+                    }).catch(err => {
+                        validations.validateResponse(res, err, { data: { saved: false } })
                     })
                 }
-            
-            }). catch( err => {
-                validations.validateResponse(res, err, { data: { saved: false} })
+
+            }).catch(err => {
+                validations.validateResponse(res, err, { data: { saved: false } })
             })
 
         } catch (e) {
-            validations.validateResponse(res, 'Error save post', { data: { saved: false} })
+            validations.validateResponse(res, 'Error save post', { data: { saved: false } })
         }
     }
 

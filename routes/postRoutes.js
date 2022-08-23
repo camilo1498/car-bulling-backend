@@ -8,6 +8,6 @@ module.exports = (app) => {
     app.get('/api/post/getAll', passport.authenticate('jwt', {session: false}), PostController.getAll),
     app.delete('/api/post/delete', [passport.authenticate('jwt', {session: false}), validateRole.validateAdmin], PostController.deletePost),
     app.put('/api/post/likePost', passport.authenticate('jwt', {session: false}), PostController.likePost),
-    app.put('/api/post/updatePost', passport.authenticate('jwt', {session: false}), PostController.updatePost),
+    app.put('/api/post/updatePost', [passport.authenticate('jwt', {session: false}), validateRole.validateAdmin], PostController.updatePost),
     app.put('/api/post/savePost', passport.authenticate('jwt', {session: false}), PostController.savePost)
 }
