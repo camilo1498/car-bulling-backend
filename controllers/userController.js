@@ -41,7 +41,9 @@ const jwt = require('jsonwebtoken')
                 gender,
                 phoneNumber,
                 address,
-                role: role._id
+                role: role._id,
+                liked_post: [],
+                saved_post: []
             })
             /// save in db
             await user.save().then(response => {
