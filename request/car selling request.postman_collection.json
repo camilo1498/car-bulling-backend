@@ -92,7 +92,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZmVhMTJiZWQ3MTljODg3NWUzMTA5OSIsIm5hbWUiOiJhZG1pbiIsImxhc3RuYW1lIjoibXkgYWRtaW4iLCJlbWFpbCI6Im15IGFkbWluIiwicm9sZSI6WyI2MmZlNjlkODE2NDAyZDllMTc2NDlmNTYiXSwiaWF0IjoxNjYxMjAxNDI0LCJleHAiOjE2NjM3OTM0MjR9.oz22Fet_rddNOri3a_FwwycwDnw55npXf5ohR_5TgT8",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMDRkZGU3N2JkZjk0YzQ1NzdkN2U5ZSIsIm5hbWUiOiJhZG1pbiIsImxhc3RuYW1lIjoibXkgYWRtaW4iLCJlbWFpbCI6Im15IGFkbWluIiwicm9sZSI6WyI2MmZlNjlkODE2NDAyZDllMTc2NDlmNTYiXSwiaWF0IjoxNjYxMjgxNjU4LCJleHAiOjE2NjM4NzM2NTh9.MQd-msvSuny-ph4HmIcBicPo_cT2LJ2kJpHlwCbuZtI",
 							"type": "string"
 						}
 					]
@@ -100,13 +100,73 @@
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"images\": [\n        \"asdasdasdasd\"\n    ],\n    \"brand\": \"6303a37d4e7ab5d1d83a5681\",\n    \"mileage\": 1000,\n    \"available_colours\": [\n        \"yellow\",\n        \"grey\"\n    ],\n    \"name\": \"something 2\",\n    \"description\": \"lorem asdijasidasd\",\n    \"data_sheet\": {\n        \"brand\": \"some\",\n        \"model\": \"mm\",\n        \"release_date\": \"20-02-2022\",\n        \"color\": \"black\",\n        \"fuel_type\": \"gas\",\n        \"total_doors\": 5,\n        \"transmition_type\": \"auto\",\n        \"engine_type\": \"1600\",\n        \"mileage\": 0,\n        \"total_seats\": 7\n    },\n    \"price\":450000,\n    \"contact_info\": {\n            \"agent_name\": \"name\",\n            \"phone_number\": \"32483298493\"\n        },\n        \"available_vehicle\": true,\n        \"is_new\": false,\n        \"concessionarie_location\": \"bogotá\"\n   \n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": [
+								"/Users/deybivelandia/Downloads/giordano_rossoni-1013.jpeg",
+								"/Users/deybivelandia/Downloads/pexels-photo-1525041.jpeg"
+							]
+						},
+						{
+							"key": "brand",
+							"value": "6303a37d4e7ab5d1d83a5681",
+							"type": "text"
+						},
+						{
+							"key": "mileage",
+							"value": "3500000",
+							"contentType": "",
+							"type": "text"
+						},
+						{
+							"key": "available_colours",
+							"value": "[\n        \"yellow\",\n        \"grey\"\n    ]",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "something 4",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "sdjknajsndjasnjdnsad",
+							"type": "text"
+						},
+						{
+							"key": "data_sheet",
+							"value": "{\n        \"brand\": \"some\",\n        \"model\": \"mm\",\n        \"release_date\": \"20-02-2022\",\n        \"color\": \"black\",\n        \"fuel_type\": \"gas\",\n        \"total_doors\": 5,\n        \"transmition_type\": \"auto\",\n        \"engine_type\": \"1600\",\n        \"mileage\": 0,\n        \"total_seats\": 7\n    }",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "1238129839283",
+							"type": "text"
+						},
+						{
+							"key": "contact_info",
+							"value": "{\n        \"agent_name\": \"name\",\n        \"phone_number\": \"32483298493\"\n    }",
+							"type": "text"
+						},
+						{
+							"key": "available_vehicle",
+							"value": "true",
+							"type": "text"
+						},
+						{
+							"key": "is_new",
+							"value": "true",
+							"type": "text"
+						},
+						{
+							"key": "concessionarie_location",
+							"value": "algun lugar",
+							"type": "text"
 						}
-					}
+					]
 				},
 				"url": {
 					"raw": "localhost:3306/api/post/create",
