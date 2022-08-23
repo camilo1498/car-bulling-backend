@@ -8,10 +8,14 @@ module.exports = {
         let token = req.headers.authorization.split(' ')[1];
         const decodeToken = jwt.verify(token, process.env.TOKEN_SECRET)
 
-        console.log(decodeToken)
         try {
+            /// get file path
+            const images = []
+            req.files.forEach(img => {
+                images.push(img.path)
+            });
+
             const {
-                images,
                 brand,
                 mileage,
                 available_colours,
