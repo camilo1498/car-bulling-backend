@@ -9,20 +9,20 @@ const session = require('express-session')
 
 
 /// initialize mongo database
-require('./database/db_connection')
+require('./src/database/db_connection')
 
 /// initialize models
-require('./models/role_models/role_permission_model')
+require('./src/models/role_models/role_permission_model')
 
 const app = express();
 const server = http.createServer(app);
 
 /// routes
-const userroutes = require('./routes/userRoutes')
-const roleRoutes = require('./routes/roleRoutes')
-const permissionRoleRoutes = require('./routes/permissionRoleRoute')
-const brandRoutes = require('./routes/brandRoutes')
-const postRoutes = require('./routes/postRoutes')
+const userroutes = require('./src/routes/userRoutes')
+const roleRoutes = require('./src/routes/roleRoutes')
+const permissionRoleRoutes = require('./src/routes/permissionRoleRoute')
+const brandRoutes = require('./src/routes/brandRoutes')
+const postRoutes = require('./src/routes/postRoutes')
 
 
 Sentry.init({
@@ -64,7 +64,7 @@ app.use(passport.session());
 app.disable('x-powered-by');
 app.set('port', port);
 
-require('./middleware/passport')(passport)
+require('./src/middleware/passport')(passport)
 
 /// init routes
 userroutes(app)
