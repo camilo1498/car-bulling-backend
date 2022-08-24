@@ -21,7 +21,7 @@ module.exports = {
             })
 
         } catch(e) {
-            validations.validateResponse(res, 'Error while create brand')
+            validations.validateResponse(res, e ?? 'Error while create brand')
         }
     },
 
@@ -42,7 +42,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch(e) {
-            validations.validateResponse(res, 'Error while update brand')
+            validations.validateResponse(res, e ?? 'Error while update brand')
         }
     },
 
@@ -59,7 +59,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch(e) {
-            validations.validateResponse(res, 'Error while deleting brand')
+            validations.validateResponse(res, e ?? 'Error while deleting brand')
         }
     },
 
@@ -75,7 +75,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch(e) {
-            validations.validateResponse(res, 'Error while getting brands')
+            validations.validateResponse(res, e ?? 'Error while getting brands')
         }
     },
 
@@ -92,7 +92,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch(e) {
-            validations.validateResponse(res, 'Error while getting brands')
+            validations.validateResponse(res, e ?? 'Error while getting brands')
         }
     }
 }

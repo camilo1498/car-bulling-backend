@@ -21,7 +21,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch(e) {
-            validations.validateResponse(res, "Error while creating permission, please contact eith support")
+            validations.validateResponse(res,e ??  "Error while creating permission, please contact eith support")
         }
     },
 
@@ -45,7 +45,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch(e){
-            validations.validateResponse(res, "Error while edting permission, please contact eith support")
+            validations.validateResponse(res, e ?? "Error while edting permission, please contact eith support")
         }
     },
 
@@ -63,7 +63,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch(e) {
-            validations.validateResponse(res, "Error while deleting permission, please contact eith support")
+            validations.validateResponse(res, e ?? "Error while deleting permission, please contact eith support")
         }
     },
 
@@ -79,7 +79,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch(e) {
-            validations.validateResponse(res, "Error while getting all permissions, please contact eith support")
+            validations.validateResponse(res, e ?? "Error while getting all permissions, please contact eith support")
         }
     },
 
@@ -96,7 +96,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch(e) {
-            validations.validateResponse(res, "Error while getting permission, please contact eith support")
+            validations.validateResponse(res, e ?? "Error while getting permission, please contact eith support")
         }
     }
 }

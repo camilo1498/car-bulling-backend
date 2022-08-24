@@ -62,7 +62,7 @@ module.exports = {
                 })
             }
         } catch (e) {
-            validations.validateResponse(res, "error while user registration, please contact with support")
+            validations.validateResponse(res, e ?? "error while user registration, please contact with support")
         }
     },
 
@@ -97,7 +97,7 @@ module.exports = {
                 })
             }
         } catch (err) {
-            validations.validateResponse(res, "error in user login")
+            validations.validateResponse(res,e ??  "error in user login")
         }
     },
 
@@ -146,7 +146,7 @@ module.exports = {
             }
 
         } catch (err) {
-            validations.validateResponse(res, "error while getting user profile info")
+            validations.validateResponse(res, e ?? "error while getting user profile info")
         }
     }
 }

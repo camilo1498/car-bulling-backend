@@ -23,7 +23,7 @@ module.exports = {
             })
 
         } catch (e) {
-            validations.validateResponse(res, 'Error while creating role, please contact with support')
+            validations.validateResponse(res, e ?? 'Error while creating role, please contact with support')
         }
     },
 
@@ -49,7 +49,7 @@ module.exports = {
             })
 
         } catch (e) {
-            validations.validateResponse(res, 'Error while updating role, please contact with support')
+            validations.validateResponse(res, e ?? 'Error while updating role, please contact with support')
         }
     },
 
@@ -66,7 +66,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch (e) {
-            validations.validateResponse(res, 'Error while deleting role, please contact with support')
+            validations.validateResponse(res, e ?? 'Error while deleting role, please contact with support')
         }
     },
 
@@ -85,7 +85,7 @@ module.exports = {
             })
 
         } catch (e) {
-            validations.validateResponse(res, 'Error while getting roles, please contact with support')
+            validations.validateResponse(res, e ?? 'Error while getting roles, please contact with support')
         }
     },
 
@@ -106,7 +106,7 @@ module.exports = {
             })
 
         } catch (e) {
-            validations.validateResponse(res, 'Error while getting roles, please contact with support')
+            validations.validateResponse(res, e ?? 'Error while getting roles, please contact with support')
         }
     }
 }

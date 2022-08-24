@@ -18,7 +18,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch(e) {
-            validations.validateResponse(res, 'Error finding by brand')
+            validations.validateResponse(res, e ?? 'Error finding by brand')
         }
     }
 }

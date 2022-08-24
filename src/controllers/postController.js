@@ -71,7 +71,6 @@ module.exports = {
             })
 
         } catch (e) {
-            console.log(e)
             validations.validateResponse(res, e ?? 'Error while create post')
         }
     },
@@ -148,7 +147,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch (e) {
-            validations.validateResponse(res, 'Error while getting posts')
+            validations.validateResponse(res, e ?? 'Error while getting posts')
         }
     },
 
@@ -165,7 +164,7 @@ module.exports = {
                 validations.validateResponse(res, err)
             })
         } catch (e) {
-            validations.validateResponse(res, 'Error while deleting post')
+            validations.validateResponse(res, e ?? 'Error while deleting post')
         }
     },
 
@@ -240,7 +239,7 @@ module.exports = {
             })
 
         } catch (e) {
-            validations.validateResponse(res, 'Error while like post', { data: { like: false } })
+            validations.validateResponse(res, e ?? 'Error while like post', { data: { like: false } })
         }
     },
 
@@ -290,7 +289,7 @@ module.exports = {
             })
 
         } catch (e) {
-            validations.validateResponse(res, 'Error while updating post')
+            validations.validateResponse(res, e ?? 'Error while updating post')
         }
     },
 
@@ -343,7 +342,7 @@ module.exports = {
             })
 
         } catch (e) {
-            validations.validateResponse(res, 'Error save post', { data: { saved: false } })
+            validations.validateResponse(res, e ?? 'Error save post', { data: { saved: false } })
         }
     }
 
