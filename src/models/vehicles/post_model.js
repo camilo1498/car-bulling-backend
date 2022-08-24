@@ -36,16 +36,46 @@ const postSchema = new Schema({
         required: true
     },
     data_sheet: {
-        brand: String,
-        model: String,
-        release_date: String,
-        color: String,
-        fuel_type: String,
-        total_doors: Number,
-        transmition_type: String,
-        engine_type: String,
-        mileage: Number,
-        total_seats: Number
+        brand: {
+            type: String,
+            required: true
+        },
+        model: {
+            type: String,
+            required: true
+        },
+        release_date: {
+            type: String,
+            required: true
+        },
+        color: {
+            type: String,
+            required: true
+        },
+        fuel_type: {
+            type: String,
+            required: true
+        },
+        total_doors:{
+            type: Number,
+            required: true
+        },
+        transmition_type: {
+            type: String,
+            required: true
+        },
+        engine_type: {
+            type: String,
+            required: true
+        },
+        mileage: {
+            type: Number,
+            required: true
+        },
+        total_seats: {
+            type: Number,
+            required: true
+        },
     },
     comments: [{
         type: Schema.Types.ObjectId,
@@ -60,8 +90,14 @@ const postSchema = new Schema({
         required: true
     },
     contact_info: {
-        agent_name: String,
-        phone_number: String
+        agent_name: {
+            type: String,
+            required: true
+        },
+        phone_number: {
+            type: String,
+            required: true
+        },
     },
     available_vehicle: {
         type: Boolean,

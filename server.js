@@ -22,6 +22,7 @@ const roleRoutes = require('./src/routes/roleRoutes')
 const permissionRoleRoutes = require('./src/routes/permissionRoleRoute')
 const brandRoutes = require('./src/routes/brandRoutes')
 const postRoutes = require('./src/routes/postRoutes')
+const searchRoutes = require('./src/routes/searchRoutes')
 
 
 Sentry.init({
@@ -71,7 +72,7 @@ roleRoutes(app)
 permissionRoleRoutes(app)
 brandRoutes(app)
 postRoutes(app)
-
+searchRoutes(app)
 
 
 

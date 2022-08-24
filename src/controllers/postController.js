@@ -30,7 +30,7 @@ module.exports = {
             } = req.body
 
             const post = new PostModel({
-                images,
+                images: images.length === 0 ? null : images,
                 brand,
                 mileage,
                 like_count: [],
@@ -54,7 +54,7 @@ module.exports = {
                     message: 'post created',
                     data: response ?? {}
                 })
-            }).catch(err => {
+            }).catch( err => {
                 validations.validateResponse(res, err)
             })
 
@@ -128,6 +128,7 @@ module.exports = {
                 res.status(200).json({
                     success: true,
                     message: 'getting all post',
+                    total_items: response.length,
                     data: response ?? {}
                 })
             }).catch(err => {
