@@ -2,6 +2,8 @@ const validations = require('../utils/validations')
 const jwt = require('jsonwebtoken')
 const PostModel = require('../models/vehicles/post_model')
 const UserModel = require('../models/user_models/user_model')
+const cloudinary = require('../middleware/cloudinary')
+const fs = require('fs')
 
 module.exports = {
     async createPost(req, res) {
@@ -9,11 +11,21 @@ module.exports = {
         const decodeToken = jwt.verify(token, process.env.TOKEN_SECRET)
 
         try {
+            /// instance of cloudinary
+            const uploader = async (path) => await cloudinary.uploads(path, 'Post Images')
+
+            const imageUrl = []
+            const files = req.files
+
+            for(const file of files) {
+                const { path } = file
+                const newPath = await uploader(path)
+                imageUrl.push(newPath.URL)
+                fs.unlinkSync(path)
+            }
+
+
             /// get file path
-            const images = []
-            req.files.forEach(img => {
-                images.push(img.path)
-            });
 
             const {
                 brand,
@@ -30,7 +42,7 @@ module.exports = {
             } = req.body
 
             const post = new PostModel({
-                images: images.length === 0 ? null : images,
+                images: imageUrl.length === 0 ? null : imageUrl,
                 brand,
                 mileage,
                 like_count: [],
@@ -54,12 +66,13 @@ module.exports = {
                     message: 'post created',
                     data: response ?? {}
                 })
-            }).catch( err => {
+            }).catch(err => {
                 validations.validateResponse(res, err)
             })
 
         } catch (e) {
-            validations.validateResponse(res, 'Error while create post')
+            console.log(e)
+            validations.validateResponse(res, e ?? 'Error while create post')
         }
     },
 

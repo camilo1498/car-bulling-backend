@@ -7,6 +7,9 @@ const passport = require('passport')
 const logger = require('morgan');
 const session = require('express-session')
 
+/// initialize cloudinary
+require('./src/middleware/cloudinary')
+
 /// initialize mongo database
 require('./src/database/db_connection')
 
