@@ -7,8 +7,11 @@ module.exports = {
     async filterByBrand( req, res ) {
         try {
             const { brand_id } = req.query
-            console.log(brand_id)
-            await PostModel.find({ brand: brand_id }).then( response => {
+            await PostModel.find({ brand: brand_id }, { images:{$slice:  1}}).select([
+                'name',
+                'price',
+                '{ images:{$slice:  1}'
+            ]).then( response => {
                 res.status(200).json({
                     success: true,
                     message: 'getting by brands',
