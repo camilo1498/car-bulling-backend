@@ -1,16 +1,18 @@
+/// instances
 require('dotenv').config()
 const mongoose = require('mongoose')
 
+/// get saved db uri
 const { MONGO_DB_URI } = process.env
 
-const mongoConnectionUri = MONGO_DB_URI
-mongoose.connect(mongoConnectionUri).then(() => {
+/// connecting to db
+mongoose.connect(MONGO_DB_URI).then(() => {  /// success response
     console.log("DB connected")
-}).catch(err => {
+}).catch(err => { /// error response
     console.error(err)
 })
 
-process.on('uncaughtException', error => {
+process.on('uncaughtException', error => { /// error response and close db connection
     console.error(error)
     mongoose.disconnect()
-  })
+})

@@ -1,6 +1,8 @@
+/// instances
 const cloudinary = require('cloudinary')
 const dotenenv = require('dotenv')
 
+/// init dotenv
 dotenenv.config()
 
 /// init cloudinary
@@ -10,9 +12,9 @@ cloudinary.config({
     api_secret: process.env.CLOUD_API_SECRET
 })
 
-
+/// export module
 exports.uploads = (file, folder) => {
-    return new Promise( resolve => {
+    return new Promise(resolve => {
         cloudinary.uploader.upload(file, (result) => {
             resolve({
                 URL: result.url,

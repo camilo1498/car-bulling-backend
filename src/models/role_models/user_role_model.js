@@ -7,15 +7,10 @@ const userRoleSchema = new Schema({
     permissions: [{
         type: Schema.Types.ObjectId,
         ref: 'role_permission'
-    }],
-    createdAt: {
-        type: Date,
-        default: Date.now()
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now()
-    }
+    }]
+}, {
+    timestamps: true,
+    versionKey: false
 })
 
 userRoleSchema.set('toJSON', {

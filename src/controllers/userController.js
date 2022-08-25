@@ -5,9 +5,10 @@ const validations = require('../utils/validations')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
+    /// register user
     async registerUser(req, res) {
         try {
-            /// parse query body
+            /// get and save http param into a variable
             const { name, lastname, email, password, gender, address, phoneNumber } = req.body
 
             /// get default user role
@@ -46,14 +47,13 @@ module.exports = {
                     saved_post: []
                 })
                 /// save in db
-                await user.save().then(response => {
+                await user.save().then(response => { /// success response
                     res.status(201).json({
                         success: true,
                         message: "user saved successfuly",
                         data: response ?? {}
                     })
-                }).catch(err => {
-
+                }).catch(err => { /// error response
                     res.status(400).json({
                         success: false,
                         message: err['message'],
@@ -61,28 +61,34 @@ module.exports = {
                     })
                 })
             }
-        } catch (e) {
+        } catch (e) { /// inernal error
             validations.validateResponse(res, e ?? "error while user registration, please contact with support")
         }
     },
 
+    /// auth user
     async loginUser(req, res) {
         try {
-            const email = req.query.email
-            const password = req.query.password
+            const { email, password } = req.query
+
+            /// DB query
             const user = await UserModel.findOne({ email })
 
+            /// validate and compare password
             const correctPassword = user === null
                 ? false
                 : await UserModel.comparePassword(password, user.password)
 
+            /// if user or password is incorred
             if (!(user && correctPassword)) {
+                /// error response
                 res.status(401).json({
                     success: false,
                     message: "incorrect email or password",
                     data: {}
                 })
             } else {
+                /// token data
                 const tokenData = {
                     id: user._id,
                     name: user.name,
@@ -90,37 +96,52 @@ module.exports = {
                     email: user.lastname,
                     role: user.role
                 }
+
+                /// create token
+                const generated_token = jwt.sign(tokenData, process.env.TOKEN_SECRET, { expiresIn: '30d' })
+                /// success response
                 res.status(201).json({
                     success: true,
                     message: "user logged",
-                    token: jwt.sign(tokenData, process.env.TOKEN_SECRET, { expiresIn: '30d' })
+                    token: generated_token
                 })
             }
-        } catch (err) {
-            validations.validateResponse(res,e ??  "error in user login")
+        } catch (err) { /// inernal error
+            validations.validateResponse(res, e ?? "error in user login")
         }
     },
 
+    /// get profile
     async getUserProfile(req, res) {
         try {
+
+            /// get token from header
             const authorization = req.headers.authorization
 
+            /// local variables
             let token = null
             let decodeToken = null
             let userId
+
+            /// if header has data and correct format
             if (authorization && authorization.toLowerCase().startsWith('bearer')) {
                 token = authorization.split(' ')[1]
             }
 
+            /// decode token
             decodeToken = jwt.decode(token, process.env.TOKEN_SECRET)
+            /// getting user id
             userId = decodeToken.id
 
+            /// if token or decode token are invalid
             if (!token || !decodeToken.id) {
+                /// error response
                 validations.validateResponse(res, "invalid token")
             } else {
+                /// DB query
                 const user = await UserModel.findOne({ _id: userId }).populate('role', {
                     roleName: 1
-                }).populate('liked_post', {
+                }).populate('liked_post', { /// join with post collection (liked post)
                     images: 1,
                     name: 1,
                     price: 1,
@@ -128,7 +149,7 @@ module.exports = {
                     "data_sheet.mileage": 1,
                     concessionarie_location: 1,
                     is_new: 1
-                }).populate('saved_post', {
+                }).populate('saved_post', { /// join with post collection (bookmarked post)
                     images: 1,
                     name: 1,
                     price: 1,
@@ -138,6 +159,7 @@ module.exports = {
                     is_new: 1
                 })
 
+                /// success response
                 res.status(200).json({
                     success: true,
                     message: "finded user",
@@ -146,6 +168,7 @@ module.exports = {
             }
 
         } catch (err) {
+            /// inernal error
             validations.validateResponse(res, e ?? "error while getting user profile info")
         }
     }

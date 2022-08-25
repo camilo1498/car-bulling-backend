@@ -3,15 +3,10 @@ const uniqueValidator =  require('mongoose-unique-validator')
 
 const rolePermissionSchema = new Schema({
     permissionName: String,
-    permissionDescription: String,
-    createdAt: {
-        type: Date,
-        default: Date.now()
-    },
-    updatedAt:{
-        type: Date,
-        default: Date.now()
-    },
+    permissionDescription: String
+}, {
+    timestamps: true,
+    versionKey: false
 })
 
 rolePermissionSchema.set('toJSON', {

@@ -1,27 +1,31 @@
+/// instances
 const multer = require('multer')
 
-
+/// define local destination to upload files
 const storage = multer.diskStorage({
-    destination: ( req, file, cb ) => {
+    destination: (req, file, cb) => {
         cb(null, 'uploads')
     },
-    filename: ( req, file, cb ) => {
+    filename: (req, file, cb) => { /// define file name
         cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname)
     }
 })
 
-const file_filter = ( req, file, cb ) => {
-    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+/// validate file extention
+const file_filter = (req, file, cb) => {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
         cb(null, true)
     } else {
         cb(null, false)
     }
 }
 
-const upload = multer({storage: storage, fileFilter: file_filter})
+/// upload to local server storage
+const upload = multer({ storage: storage, fileFilter: file_filter })
 
 
-module.exports = { 
+/// export class functions
+module.exports = {
     upload,
 
- }
+}

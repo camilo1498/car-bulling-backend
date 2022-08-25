@@ -1,3 +1,4 @@
+/// instances
 const express = require('express');
 const http = require('http');
 const cors = require('cors')
@@ -27,21 +28,22 @@ const brandRoutes = require('./src/routes/brandRoutes')
 const postRoutes = require('./src/routes/postRoutes')
 const searchRoutes = require('./src/routes/searchRoutes')
 
-
+/// init dns
 Sentry.init({
-    dsn: 'https://ac034ebd99274911a8234148642e044c@o537348.ingest.sentry.io/5655435',
-    integrations: [
-      // enable HTTP calls tracing
-      new Sentry.Integrations.Http({ tracing: true }),
-      // enable Express.js middleware tracing
-      new Tracing.Integrations.Express({ app })
-    ],
-  
-    // We recommend adjusting this value in production, or using tracesSampler
-    // for finer control
-    tracesSampleRate: 1.0
-  })
+  dsn: 'https://ac034ebd99274911a8234148642e044c@o537348.ingest.sentry.io/5655435',
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Tracing.Integrations.Express({ app })
+  ],
 
+  // We recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 1.0
+})
+
+/// define server port
 const port = process.env.PORT || 3001
 
 // RequestHandler creates a separate execution context using domains, so that every
@@ -56,11 +58,13 @@ app.use(express.json())
 app.use(express.urlencoded({
   extended: true
 }))
+
 app.use(session({
   secret: process.env.TOKEN_SECRET,
   resave: false,
   saveUninitialized: true
 }))
+/// init passport
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -78,13 +82,13 @@ postRoutes(app)
 searchRoutes(app)
 
 
-
-server.listen(port, function() {
-    console.log('Anitialize server aplication ' + port)
+/// run server
+server.listen(port, function () {
+  console.log('Anitialize server aplication ' + port)
 })
 
 // ERROR HANDLER
 app.use((err, req, res, next) => {
-    console.log(err);
-    res.status(err.status || 500).send(err.stack);
+  console.log(err);
+  res.status(err.status || 500).send(err.stack);
 });

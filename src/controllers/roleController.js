@@ -1,111 +1,154 @@
+/// instances
 const UserRoleModel = require('../models/role_models/user_role_model')
 const validations = require('../utils/validations')
 
+/// class functions
 module.exports = {
-    async createRole(req, res, next) {
+    /// create user role function
+    async createRole(req, res) {
         try {
+            /// get and save http param into a variable
             const { roleName, roleDescription } = req.body
 
+            /// set param data to user role model
             const role = new UserRoleModel({
                 roleName,
                 roleDescription,
                 permissions: []
             })
 
-            await role.save().then(response => {
-                res.status(201).json({
-                    success: true,
-                    message: 'Role was created successfuly',
-                    data: response ?? {}
+            /// DB query
+            await role.save()
+                /// success response
+                .then(response => {
+                    res.status(201).json({
+                        success: true,
+                        message: 'Role was created successfuly',
+                        data: response ?? {}
+                    })
+                }) /// error response
+                .catch(err => {
+                    validations.validateResponse(res, err)
                 })
-            }).catch(err => {
-                validations.validateResponse(res, err)
-            })
 
         } catch (e) {
+            /// internal error
             validations.validateResponse(res, e ?? 'Error while creating role, please contact with support')
         }
     },
 
-    async editRole(req, res, next) {
+    /// edit role data
+    async editRole(req, res) {
         try {
+            /// get and save http param into a variable
             const { id, roleName, roleDescription, permissions } = req.body
-        
-            UserRoleModel.findByIdAndUpdate({ _id: id }, {
+
+            /// DB query
+            await UserRoleModel.findByIdAndUpdate({ _id: id }, {
+                /// data that will be update
                 $set: {
                     roleName,
                     roleDescription,
-                    permissions,
-                    updatedAt: Date.now()
+                    permissions
                 }
-            }, { new: true }).then(response => {
-                res.status(202).json({
-                    success: true,
-                    message: 'Role was update successfuly',
-                    data: response ?? {}
+            }, /// only update fields that has changes
+                { new: true })
+                /// success response
+                .then(response => {
+                    res.status(202).json({
+                        success: true,
+                        message: 'Role was update successfuly',
+                        data: response ?? {}
+                    })
+                }) /// error response
+                .catch(err => {
+                    validations.validateResponse(res, err)
                 })
-            }).catch(err => {
-                validations.validateResponse(res, err)
-            })
 
         } catch (e) {
+            /// inernal error
             validations.validateResponse(res, e ?? 'Error while updating role, please contact with support')
         }
     },
 
-    async deleteRole(req, res, next) {
+    /// delete user role 
+    async deleteRole(req, res) {
         try {
+            /// get and save http param into a variable
             const { id } = req.query
-            UserRoleModel.findByIdAndDelete({ _id: id }).then(response => {
-                res.status(202).json({
-                    success: true,
-                    message: 'Role was deleted successfuly',
-                    data: response ?? {}
+
+            /// DB query
+            UserRoleModel.findByIdAndDelete({ _id: id })
+                /// success response
+                .then(response => {
+                    res.status(202).json({
+                        success: true,
+                        message: 'Role was deleted successfuly',
+                        data: response ?? {}
+                    })
+                }) /// error response
+                .catch(err => {
+                    validations.validateResponse(res, err)
                 })
-            }).catch(err => {
-                validations.validateResponse(res, err)
-            })
         } catch (e) {
+            /// internal error
             validations.validateResponse(res, e ?? 'Error while deleting role, please contact with support')
         }
     },
 
-    async getAllroles(req, res, next) {
+    /// get all collection data
+    async getAllroles(req, res) {
         try {
-            await UserRoleModel.find({}).populate('permissions',{
-                permissionName: 1
-            }).then(response => {
-                res.status(202).json({
-                    success: true,
-                    message: 'Role list',
-                    data: response ?? {}
+            /// DB query
+            await UserRoleModel.find({})
+                /// join with permissions collection and only show "permissionName" field
+                .populate('permissions', {
+                    permissionName: 1
                 })
-            }).catch(err => {
-                validations.validateResponse(res, err)
-            })
+                /// success response
+                .then(response => {
+                    res.status(202).json({
+                        success: true,
+                        message: 'Role list',
+                        data: response ?? {}
+                    })
+                }) /// error response
+                .catch(err => {
+                    validations.validateResponse(res, err)
+                })
 
         } catch (e) {
+            /// internal error
             validations.validateResponse(res, e ?? 'Error while getting roles, please contact with support')
         }
     },
 
-    async getRoleById(req, res, next) {
-
-        const { id } = req.query
+    /// get user role by id
+    async getRoleById(req, res) {
         try {
-            await UserRoleModel.findById({_id: id}).populate('permissions',{
-                permissionName: 1
-            }).then(response => {
-                res.status(202).json({
-                    success: true,
-                    message: 'Role list',
-                    data: response ?? {}
+            /// get and save http param into a variable
+            const { id } = req.query
+
+            /// DB query
+            await UserRoleModel.findById({ _id: id })
+                /// join with permissions collection and only show "permissionName" field
+                .populate('permissions', {
+                    permissionName: 1
                 })
-            }).catch(err => {
-                validations.validateResponse(res, err)
-            })
+                /// success response
+                .then(response => {
+                    res.status(202).json({
+                        success: true,
+                        message: 'Role list',
+                        data: response ?? {}
+                    })
+                }) /// error response
+                .catch(err => {
+                    validations.validateResponse(res, err)
+                })
 
         } catch (e) {
+            /// internal error
             validations.validateResponse(res, e ?? 'Error while getting roles, please contact with support')
         }
     }
