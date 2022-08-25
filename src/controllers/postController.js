@@ -159,7 +159,7 @@ module.exports = {
             /// DB query
             await PostModel.find({})
                 .select([ /// only show specific data fields
-                    "images",
+                    "image.images",
                     "name",
                     "price",
                     "data_sheet.release_date",

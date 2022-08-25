@@ -142,7 +142,7 @@ module.exports = {
                 const user = await UserModel.findOne({ _id: userId }).populate('role', {
                     roleName: 1
                 }).populate('liked_post', { /// join with post collection (liked post)
-                    images: 1,
+                    "image.images": 1,
                     name: 1,
                     price: 1,
                     "data_sheet.release_date": 1,
@@ -150,7 +150,7 @@ module.exports = {
                     concessionarie_location: 1,
                     is_new: 1
                 }).populate('saved_post', { /// join with post collection (bookmarked post)
-                    images: 1,
+                    "image.images": 1,
                     name: 1,
                     price: 1,
                     "data_sheet.release_date": 1,
