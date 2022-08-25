@@ -6,7 +6,7 @@ const { upload } = require('../middleware/uploadFile')
 
 
 module.exports = (app) => {
-    app.post('/api/post/create', [passport.authenticate('jwt', { session: false }), validateRole.validateAdmin, upload.array('images')], PostController.createPost),
+    app.post('/api/post/create', [passport.authenticate('jwt', { session: false }), validateRole.validateAdmin, upload.array('image')], PostController.createPost),
         app.get('/api/post/getById', passport.authenticate('jwt', { session: false }), PostController.getPotByID),
         app.get('/api/post/getAll', passport.authenticate('jwt', { session: false }), PostController.getAll),
         app.delete('/api/post/delete', [passport.authenticate('jwt', { session: false }), validateRole.validateAdmin], PostController.deletePost),

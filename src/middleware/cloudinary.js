@@ -13,16 +13,24 @@ cloudinary.config({
 })
 
 /// export module
-exports.uploads = (file, folder) => {
-    return new Promise(resolve => {
-        cloudinary.uploader.upload(file, (result) => {
-            resolve({
-                URL: result.url,
-                id: result.public_id
+module.exports = {
+    uploads(file, folder) {
+        return new Promise(resolve => {
+            cloudinary.uploader.upload(file, (result) => {
+                resolve({
+                    URL: result.url,
+                    id: result.public_id
+                })
+            }, {
+                resource_type: "auto",
+                folder: folder
             })
-        }, {
-            resource_type: "auto",
-            folder: folder
         })
-    })
+    },
+
+    delete(folder) {
+        return new  Promise( resolve => {
+            cloudinary.v2.api.delete_folder(folder)
+        })
+    }
 }

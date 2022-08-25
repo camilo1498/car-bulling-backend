@@ -52,7 +52,10 @@ module.exports = {
 
             /// set param data to user role model
             const post = new PostModel({
-                images: imageUrl.length === 0 ? null : imageUrl,
+                image: {
+                    path_folder: imageUrl.length === 0 ? null : 'Post Images/' + name + '_' + new Date().toISOString(),
+                    images : imageUrl.length === 0 ? null : imageUrl
+                },
                 brand,
                 mileage,
                 like_count: [],

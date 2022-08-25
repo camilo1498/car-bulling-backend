@@ -2,9 +2,15 @@ const { Schema, model } = require('mongoose')
 const paginate = require('mongoose-paginate-v2')
 
 const postSchema = new Schema({
-    images: {
-        type: [String],
-        required: true
+    image: {
+        path_folder: {
+            type: String,
+            required: true
+        },
+        images: {
+            type: Array,
+            required: true
+        }
     },
     brand: {
         type: Schema.Types.ObjectId,
@@ -56,7 +62,7 @@ const postSchema = new Schema({
             type: String,
             required: true
         },
-        total_doors:{
+        total_doors: {
             type: Number,
             required: true
         },
