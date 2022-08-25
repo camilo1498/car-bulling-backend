@@ -32,16 +32,15 @@ module.exports = {
     async filterbyName( req, res ) {
         try {
             const { text } = req.query
-            await PostModel.find({ $text: {
-                $search: text
-            }}).then( response => {
+           
+            await PostModel.find({ name: {'$regex': '(\s+che|^' + text + ')', '$options': 'i'}}).then( response => {
                 res.status(200).json({
                     success: true,
-                    message: 'searching complete',
+                    message: response.length != 0 ? 'searching complete' : 'no data found',
                     data: response ?? {}
-                }).catch( err => {
-                    validations.validateResponse(res, err)
                 })
+            }).catch( err => {
+                validations.validateResponse(res, err)
             })
         } catch(e) {
             validations.validateResponse(res, e ?? 'Error searching by name')
