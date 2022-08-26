@@ -73,15 +73,42 @@ module.exports = {
         }
     },
 
-    async filterByModel(req, res) {
+    async filterByVehicleType(req, res) {
         try {
 
-             /// get and save http param into a variable
-            const { text } = req.query
+            /// get and save http param into a variable
+            const { type_id } = req.query
 
-        } catch(e) {
+            /// DB query
+            await PostModel.find({ "data_sheet.vehicle_type": type_id })
+                /// get specific data
+                .select(selected_query_data)
+                /// success response
+                .then(response => {
+                    res.status(200).json({
+                        success: true,
+                        message: response === null ? 'no vechicles found' : 'searching complete',
+                        data: response ?? {}
+                    })
+                })
+                /// error response
+                .catch(err => {
+                    validations.validateResponse(res, err ?? 'no vechicles found')
+                })
+
+
+        } catch (e) {
             validations.validateResponse(res, e ?? 'Error searching by model')
         }
-    }
+    },
 
+    async getMostPopular() {
+
+    },
+
+    async getByMostViewed() {
+
+    },
+
+    async getByMostSaved() {}
 }
