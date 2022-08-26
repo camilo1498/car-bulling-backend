@@ -71,7 +71,17 @@ module.exports = {
             /// internal error
             validations.validateResponse(res, e ?? 'Error searching by name')
         }
-    }
+    },
 
+    async filterByModel(req, res) {
+        try {
+
+             /// get and save http param into a variable
+            const { text } = req.query
+
+        } catch(e) {
+            validations.validateResponse(res, e ?? 'Error searching by model')
+        }
+    }
 
 }

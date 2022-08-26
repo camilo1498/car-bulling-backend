@@ -27,6 +27,7 @@ const permissionRoleRoutes = require('./src/routes/permissionRoleRoute')
 const brandRoutes = require('./src/routes/brandRoutes')
 const postRoutes = require('./src/routes/postRoutes')
 const searchRoutes = require('./src/routes/searchRoutes')
+const vehicleModelRoutes = require('./src/routes/vehicleModelRoutes')
 
 /// init dns
 Sentry.init({
@@ -80,6 +81,7 @@ permissionRoleRoutes(app)
 brandRoutes(app)
 postRoutes(app)
 searchRoutes(app)
+vehicleModelRoutes(app)
 
 
 /// run server

@@ -47,7 +47,8 @@ const postSchema = new Schema({
             required: true
         },
         model: {
-            type: String,
+            type: Schema.Types.ObjectId,
+            ref: 'vehicle_model',
             required: true
         },
         release_date: {

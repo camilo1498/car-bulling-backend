@@ -1,48 +1,46 @@
 /// instances
 const validations = require('../utils/validations')
-const BrandModel = require('../models/vehicles/brand_model')
+const jwt = require('jsonwebtoken')
+const VehicleModelTypeModel = require('../models/vehicles/vehicle_model_type_model')
+const { response } = require('express')
 
 /// class functions
 module.exports = {
-    /// create brand
-    async createBrand(req, res) {
+    async createModel(req, res) {
         try {
-            /// get and save http param into a variable
             const { name } = req.body
-
-            /// set param data to brand model
-            const brand = new BrandModel({
+            /// set param data to "vechicle_model" model
+            const vehicle_model = new VehicleModelTypeModel({
                 name
             })
 
             /// DB query
-            await brand.save()
-                /// success response
+            await vehicle_model.save()
+                /// succes response
                 .then(response => {
                     res.status(201).json({
                         success: true,
-                        message: 'Brand was created successfuly',
+                        message: 'model created successfuly',
                         data: response ?? {}
                     })
-                }) /// error response
+                })
+                /// error response
                 .catch(err => {
                     validations.validateResponse(res, err)
                 })
 
         } catch (e) {
             /// internal error
-            validations.validateResponse(res, e ?? 'Error while create brand')
+            validations.validateResponse(res, e ?? 'Error while creating vehicle model')
         }
     },
 
-    /// update brand data
-    async updateBrand(req, res) {
+    async updateModel(req, res) {
         try {
             /// get and save http param into a variable
             const { id, name } = req.body
 
-            /// DB query
-            await BrandModel.findByIdAndUpdate({ _id: id }, {
+            await VehicleModelTypeModel.findByIdAndUpdate({ _id: id }, {
                 /// data that will be update
                 $set: {
                     name
@@ -52,7 +50,32 @@ module.exports = {
                     /// success response
                     res.status(200).json({
                         success: true,
-                        message: response === null ? 'Error, does not exist' : 'Brand was created successfuly',
+                        message: response === null ? 'Error, model does not exist' : 'model was updated successfuly',
+                        data: response ?? {}
+                    })
+                }) /// error response
+                .catch(err => {
+                    validations.validateResponse(res, err)
+                })
+
+        } catch (e) {
+            /// internal error
+            validations.validateResponse(res, e ?? 'Error while updating model')
+        }
+    },
+
+    async deleteModel(req, res) {
+        try {
+            /// get and save http param into a variable
+            const { id } = req.query
+
+            // DV query
+            await VehicleModelTypeModel.findByIdAndDelete({ _id: id })
+                /// success response
+                .then(response => {
+                    res.status(200).json({
+                        success: true,
+                        message: response === null ? 'model does not exist' :'model was deleted successfuly',
                         data: response ?? {}
                     })
                 }) /// error response
@@ -60,24 +83,43 @@ module.exports = {
                     validations.validateResponse(res, err)
                 })
         } catch (e) {
-            /// inernal error
-            validations.validateResponse(res, e ?? 'Error while update brand')
+            /// internal error
+            validations.validateResponse(res, e ?? 'Error while deleting model')
         }
     },
 
-    /// delete brand
-    async deleteBrand(req, res) {
+    async getAllModel(req, res) {
+        try {
+            /// DB query
+            await VehicleModelTypeModel.find({})
+                /// success response
+                .then(response => {
+                    res.status(200).json({
+                        success: true,
+                        message: response.length === 0 ? 'no models found' : 'getting model',
+                        data: response ?? {}
+                    })
+                }) /// error response
+                .catch(err => {
+                    validations.validateResponse(res, err)
+                })
+        } catch (e) {
+            validations.validateResponse(res, e ?? 'Error while getting all models')
+        }
+    },
+
+    async getModelById(req, res) {
         try {
             /// get and save http param into a variable
             const { id } = req.query
 
             /// DB query
-            await BrandModel.findByIdAndDelete({ _id: id })
+            await VehicleModelTypeModel.findById({ _id: id })
                 /// success response
                 .then(response => {
                     res.status(200).json({
                         success: true,
-                        message: response === null ? 'Error, does not exist' : 'Brand was deleted successfuly',
+                        message: response === null ? 'No data found' : 'Getted model',
                         data: response ?? {}
                     })
                 }) /// error response
@@ -86,54 +128,7 @@ module.exports = {
                 })
         } catch (e) {
             /// internal error
-            validations.validateResponse(res, e ?? 'Error while deleting brand')
-        }
-    },
-
-    /// get all collection data
-    async getAllBrands(req, res) {
-        try {
-            /// DB query
-            await BrandModel.find({})
-                /// success response
-                .then(response => {
-                    res.status(200).json({
-                        success: true,
-                        message: 'Brands was getting successfuly',
-                        data: response ?? {}
-                    })
-                }) /// error response
-                .catch(err => {
-                    validations.validateResponse(res, err)
-                })
-        } catch (e) {
-            /// internal error
-            validations.validateResponse(res, e ?? 'Error while getting brands')
-        }
-    },
-
-    /// get brand by id
-    async getBrandById(req, res) {
-        try {
-            /// get and save http param into a variable
-            const { id } = req.query
-
-            // DB query
-            await BrandModel.find({ _id: id })
-                /// success response
-                .then(response => {
-                    res.status(200).json({
-                        success: true,
-                        message: response === null ? 'No data found' : 'Brand was getting successfuly',
-                        data: response ?? {}
-                    })
-                }) /// error response
-                .catch(err => {
-                    validations.validateResponse(res, err)
-                })
-        } catch (e) {
-            /// internal error
-            validations.validateResponse(res, e ?? 'Error while getting brands')
+            validations.validateResponse(res, e ?? 'error getting model')
         }
     }
 }

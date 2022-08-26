@@ -54,7 +54,7 @@ module.exports = {
             const post = new PostModel({
                 image: {
                     path_folder: imageUrl.length === 0 ? null : 'Post Images/' + name + '_' + new Date().toISOString(),
-                    images : imageUrl.length === 0 ? null : imageUrl
+                    images: imageUrl.length === 0 ? null : imageUrl
                 },
                 brand,
                 mileage,
@@ -105,7 +105,11 @@ module.exports = {
             const { id } = req.query
 
             /// DB query
-            await PostModel.findById({ _id: id }).then(async (response) => {
+            await PostModel.findById({ _id: id })
+            /// join with vehicle_model collection (data_sheet.model)
+            .populate('data_sheet.model',{name: 1})
+            /// success, post found
+            .then(async (response) => {
                 /// validate if user id already viewed the post
                 if (!response.view_count.includes(decodeToken.id)) {
                     /// DB query to update view count
@@ -119,8 +123,8 @@ module.exports = {
                             /// success response
                             res.status(200).json({
                                 success: true,
-                                message: 'data found',
-                                data: response
+                                message: response === null ? 'Error, post does not exist' :'data found',
+                                data: response ?? {}
                             })
                         }).catch(err => {
                             /// error response but returned the main response data
@@ -134,15 +138,15 @@ module.exports = {
                     /// success response
                     res.status(200).json({
                         success: true,
-                        message: 'data found',
-                        data: response
+                        message: response === null ? 'Error, post does not exist' : 'data found',
+                        data: response ?? {}
                     })
                 }
             }) /// error response
                 .catch(err => {
                     res.status(200).json({
                         success: true,
-                        message: err ?? 'No data found',
+                        message: 'No data found',
                         data: {}
                     })
                 })
@@ -192,7 +196,7 @@ module.exports = {
                 .then(response => { /// success response
                     res.status(200).json({
                         success: true,
-                        message: 'deleted post',
+                        message: response === null ? 'Error, post does not exist' : 'deleted post',
                         data: response ?? {}
                     })
                 }).catch(err => { /// error response
@@ -355,7 +359,7 @@ module.exports = {
             }).then(response => { /// success response
                 res.status(200).json({
                     success: true,
-                    message: 'post updated successfuly',
+                    message: response === null ? 'Error, post does not exist' : 'post updated successfuly',
                     data: response ?? {}
                 })
             }).catch(err => {  /// error response

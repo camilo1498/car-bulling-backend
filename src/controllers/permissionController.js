@@ -55,7 +55,7 @@ module.exports = {
                 .then(response => {
                     res.status(201).json({
                         success: true,
-                        message: 'permission was updated successfuly',
+                        message: response === null ? 'ERror, does not exist' : 'permission was updated successfuly',
                         data: response ?? {}
                     })
                 }) /// error response
@@ -80,7 +80,7 @@ module.exports = {
                 .then(response => {
                     res.status(201).json({
                         success: true,
-                        message: 'permission was deleted successfuly',
+                        message: response === null ? 'Error, does not exist' : 'permission was deleted successfuly',
                         data: response ?? {}
                     })
                 })
@@ -124,19 +124,19 @@ module.exports = {
 
             // DB query
             await PermissionModel.findById({ _id: id })
-             /// success response
-            .then(response => {
-                res.status(201).json({
-                    success: true,
-                    message: 'success',
-                    data: response ?? {}
+                /// success response
+                .then(response => {
+                    res.status(201).json({
+                        success: true,
+                        message: response === null ? 'Error, does not exist' : 'success',
+                        data: response ?? {}
+                    })
+                }) /// error response
+                .catch(err => {
+                    validations.validateResponse(res, err)
                 })
-            }) /// error response
-            .catch(err => {
-                validations.validateResponse(res, err)
-            })
         } catch (e) {
-             /// internal error
+            /// internal error
             validations.validateResponse(res, e ?? "Error while getting permission, please contact eith support")
         }
     }

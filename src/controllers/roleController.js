@@ -57,7 +57,7 @@ module.exports = {
                 .then(response => {
                     res.status(202).json({
                         success: true,
-                        message: 'Role was update successfuly',
+                        message: response === null ? 'Error, role does not exist' : 'Role was update successfuly',
                         data: response ?? {}
                     })
                 }) /// error response
@@ -83,7 +83,7 @@ module.exports = {
                 .then(response => {
                     res.status(202).json({
                         success: true,
-                        message: 'Role was deleted successfuly',
+                        message: response === null ? 'Error, role does not exist' : 'Role was deleted successfuly',
                         data: response ?? {}
                     })
                 }) /// error response
@@ -139,7 +139,7 @@ module.exports = {
                 .then(response => {
                     res.status(202).json({
                         success: true,
-                        message: 'Role list',
+                        message: response === null ? 'Error, role does nor exist' : 'Role list',
                         data: response ?? {}
                     })
                 }) /// error response
