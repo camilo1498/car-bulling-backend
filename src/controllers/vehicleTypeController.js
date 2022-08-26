@@ -1,7 +1,7 @@
 /// instances
 const validations = require('../utils/validations')
 const jwt = require('jsonwebtoken')
-const VehicleModelTypeModel = require('../models/vehicles/vehicle_model_type_model')
+const VehicleTypeModel = require('../models/vehicles/vehicle_type_model')
 const { response } = require('express')
 
 /// class functions
@@ -10,7 +10,7 @@ module.exports = {
         try {
             const { name } = req.body
             /// set param data to "vechicle_model" model
-            const vehicle_model = new VehicleModelTypeModel({
+            const vehicle_model = new VehicleTypeModel({
                 name
             })
 
@@ -40,7 +40,7 @@ module.exports = {
             /// get and save http param into a variable
             const { id, name } = req.body
 
-            await VehicleModelTypeModel.findByIdAndUpdate({ _id: id }, {
+            await VehicleTypeModel.findByIdAndUpdate({ _id: id }, {
                 /// data that will be update
                 $set: {
                     name
@@ -70,7 +70,7 @@ module.exports = {
             const { id } = req.query
 
             // DV query
-            await VehicleModelTypeModel.findByIdAndDelete({ _id: id })
+            await VehicleTypeModel.findByIdAndDelete({ _id: id })
                 /// success response
                 .then(response => {
                     res.status(200).json({
@@ -91,7 +91,7 @@ module.exports = {
     async getAllModel(req, res) {
         try {
             /// DB query
-            await VehicleModelTypeModel.find({})
+            await VehicleTypeModel.find({})
                 /// success response
                 .then(response => {
                     res.status(200).json({
@@ -114,7 +114,7 @@ module.exports = {
             const { id } = req.query
 
             /// DB query
-            await VehicleModelTypeModel.findById({ _id: id })
+            await VehicleTypeModel.findById({ _id: id })
                 /// success response
                 .then(response => {
                     res.status(200).json({

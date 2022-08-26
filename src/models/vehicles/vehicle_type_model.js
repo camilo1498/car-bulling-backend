@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
-const vehicleModelTypeSchema = new Schema({
+const vehicleTypeSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -12,7 +12,7 @@ const vehicleModelTypeSchema = new Schema({
     versionKey: false
 })
 
-vehicleModelTypeSchema.set('toJSON', {
+vehicleTypeSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id
         delete returnedObject._id
@@ -20,8 +20,8 @@ vehicleModelTypeSchema.set('toJSON', {
     }
 })
 
-vehicleModelTypeSchema.plugin(uniqueValidator)
+vehicleTypeSchema.plugin(uniqueValidator)
 
-const VehicleModelTypeModel = model('vehicle_model', vehicleModelTypeSchema)
+const VehicleTypeModel = model('vehicle_model', vehicleTypeSchema)
 
-module.exports = VehicleModelTypeModel
+module.exports = VehicleTypeModel

@@ -107,7 +107,7 @@ module.exports = {
             /// DB query
             await PostModel.findById({ _id: id })
             /// join with vehicle_model collection (data_sheet.model)
-            .populate('data_sheet.model',{name: 1})
+            .populate('data_sheet.vehicle_type',{name: 1})
             /// success, post found
             .then(async (response) => {
                 /// validate if user id already viewed the post
