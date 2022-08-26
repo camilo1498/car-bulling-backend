@@ -47,6 +47,7 @@ module.exports = {
     async filterbyName(req, res) {
         try {
             /// get and save http param into a variable
+            
             const { text } = req.query
 
             /// regrex query
