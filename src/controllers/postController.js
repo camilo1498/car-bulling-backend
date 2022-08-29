@@ -1,6 +1,6 @@
 /// instances
 const validations = require('../utils/validations')
-const jwt = require('jsonwebtoken')
+const jwt_helper = require('../helpers/jwt_helper')
 const PostModel = require('../models/vehicles/post_model')
 const UserModel = require('../models/user_models/user_model')
 const cloudinary = require('../middleware/cloudinary')
@@ -10,10 +10,8 @@ const fs = require('fs')
 module.exports = {
     /// create post
     async createPost(req, res) {
-        /// get token from http header
-        let token = req.headers.authorization.split(' ')[1];
         /// decode token
-        const decodeToken = jwt.verify(token, process.env.TOKEN_SECRET)
+        const decodeToken = jwt_helper.decodeAccessToken(req)
         /// image url array
         const imageUrl = []
 
@@ -96,10 +94,8 @@ module.exports = {
     /// get post by id
     async getPotByID(req, res) {
         try {
-            /// get token from header
-            let token = req.headers.authorization.split(' ')[1];
             /// decode token
-            const decodeToken = jwt.verify(token, process.env.TOKEN_SECRET)
+            const decodeToken = jwt_helper.decodeAccessToken(req)
 
             /// get and save http param into a variable
             const { id } = req.query
@@ -210,10 +206,8 @@ module.exports = {
     /// like or unlike post/vehicle
     async likePost(req, res) {
         try {
-            /// get header token
-            let token = req.headers.authorization.split(' ')[1];
             /// decode token
-            const decodeToken = jwt.verify(token, process.env.TOKEN_SECRET)
+            const decodeToken = jwt_helper.decodeAccessToken(req)
 
             /// get and save http param into a variable
             const { id } = req.query
@@ -375,10 +369,8 @@ module.exports = {
     /// save/bookmark post (user)
     async savePost(req, res) {
         try {
-            /// get header token
-            let token = req.headers.authorization.split(' ')[1];
             /// decode token
-            const decodeToken = jwt.verify(token, process.env.TOKEN_SECRET)
+            const decodeToken = jwt_helper.decodeAccessToken(req)
             /// get and save http param into a variable
             const { id } = req.query
 

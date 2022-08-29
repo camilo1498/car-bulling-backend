@@ -21,13 +21,7 @@ const app = express();
 const server = http.createServer(app);
 
 /// routes
-const userroutes = require('./src/routes/userRoutes')
-const roleRoutes = require('./src/routes/roleRoutes')
-const permissionRoleRoutes = require('./src/routes/permissionRoleRoute')
-const brandRoutes = require('./src/routes/brandRoutes')
-const postRoutes = require('./src/routes/postRoutes')
-const searchRoutes = require('./src/routes/searchRoutes')
-const vehicleTypeRoutes = require('./src/routes/vehicleTypeRoutes')
+
 
 /// init dns
 Sentry.init({
@@ -74,14 +68,8 @@ app.set('port', port);
 
 require('./src/middleware/passport')(passport)
 
-/// init routes
-userroutes(app)
-roleRoutes(app)
-permissionRoleRoutes(app)
-brandRoutes(app)
-postRoutes(app)
-searchRoutes(app)
-vehicleTypeRoutes(app)
+/// init rautes
+require('./src/routes/routes')(app)
 
 
 /// run server

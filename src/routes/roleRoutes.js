@@ -1,11 +1,11 @@
 const RoleController = require('../controllers/roleController')
 const validateRole = require('../middleware/validateRole')
-const passport = require('passport')
+const jwt_helper = require('../helpers/jwt_helper')
 
 module.exports = (app) => {
-    app.post('/api/role/create', [passport.authenticate('jwt', {session: false}), validateRole.validateAdmin], RoleController.createRole),
-    app.put('/api/role/update', [passport.authenticate('jwt', {session: false}), validateRole.validateAdmin], RoleController.editRole),
-    app.delete('/api/role/delete', [passport.authenticate('jwt', {session: false}), validateRole.validateAdmin], RoleController.deleteRole),
-    app.get('/api/role/getAll', [passport.authenticate('jwt', {session: false}), validateRole.validateAdmin], RoleController.getAllroles),
-    app.get('/api/role/getById', [passport.authenticate('jwt', {session: false}), validateRole.validateAdmin], RoleController.getRoleById)
+    app.post('/api/role/create', [jwt_helper.verifyAccessToken, validateRole.validateAdmin], RoleController.createRole),
+    app.put('/api/role/update', [jwt_helper.verifyAccessToken, validateRole.validateAdmin], RoleController.editRole),
+    app.delete('/api/role/delete', [jwt_helper.verifyAccessToken, validateRole.validateAdmin], RoleController.deleteRole),
+    app.get('/api/role/getAll', [jwt_helper.verifyAccessToken, validateRole.validateAdmin], RoleController.getAllroles),
+    app.get('/api/role/getById', [jwt_helper.verifyAccessToken, validateRole.validateAdmin], RoleController.getRoleById)
 }

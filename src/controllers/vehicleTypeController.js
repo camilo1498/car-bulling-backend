@@ -1,8 +1,6 @@
 /// instances
 const validations = require('../utils/validations')
-const jwt = require('jsonwebtoken')
 const VehicleTypeModel = require('../models/vehicles/vehicle_type_model')
-const { response } = require('express')
 
 /// class functions
 module.exports = {

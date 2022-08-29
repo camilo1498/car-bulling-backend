@@ -1,8 +1,7 @@
 const UserModel = require('../models/user_models/user_model')
 const UserRoleModel = require('../models/role_models/user_role_model')
-const bcrypt = require('bcrypt')
 const validations = require('../utils/validations')
-const jwt = require('jsonwebtoken')
+const jwt_helper = require('../helpers/jwt_helper')
 
 module.exports = {
     /// register user
@@ -98,12 +97,15 @@ module.exports = {
                 }
 
                 /// create token
-                const generated_token = jwt.sign(tokenData, process.env.TOKEN_SECRET, { expiresIn: '30d' })
+                const generated_token = await jwt_helper.signAccessToken(tokenData)
+                const generated_refresh_token = await jwt_helper.signRefreshToken(tokenData)
+
                 /// success response
                 res.status(201).json({
                     success: true,
                     message: "user logged",
-                    token: generated_token
+                    token: generated_token,
+                    refresh_token: generated_refresh_token
                 })
             }
         } catch (err) { /// inernal error
@@ -112,29 +114,19 @@ module.exports = {
     },
 
     /// get profile
-    async getUserProfile(req, res) {
+    async getUserProfile(req, res, next) {
         try {
-
-            /// get token from header
-            const authorization = req.headers.authorization
-
             /// local variables
-            let token = null
             let decodeToken = null
             let userId
 
-            /// if header has data and correct format
-            if (authorization && authorization.toLowerCase().startsWith('bearer')) {
-                token = authorization.split(' ')[1]
-            }
-
             /// decode token
-            decodeToken = jwt.decode(token, process.env.TOKEN_SECRET)
+            decodeToken = jwt_helper.decodeAccessToken(req)
             /// getting user id
             userId = decodeToken.id
 
             /// if token or decode token are invalid
-            if (!token || !decodeToken.id) {
+            if (!decodeToken.id) {
                 /// error response
                 validations.validateResponse(res, "invalid token")
             } else {
@@ -169,7 +161,11 @@ module.exports = {
 
         } catch (err) {
             /// inernal error
-            validations.validateResponse(res, e ?? "error while getting user profile info")
+            validations.validateResponse(res, err ?? "error while getting user profile info")
         }
+    },
+
+    async refreshToken(req, res) {
+
     }
 }
