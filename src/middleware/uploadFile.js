@@ -1,10 +1,11 @@
 /// instances
 const multer = require('multer')
+const path = require('path')
 
 /// define local destination to upload files
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads')
+        cb(null, path.join(process.cwd(), '/uploads'))
     },
     filename: (req, file, cb) => { /// define file name
         cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname)
