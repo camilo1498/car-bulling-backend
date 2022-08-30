@@ -92,7 +92,7 @@ module.exports = {
                     id: user._id,
                     name: user.name,
                     lastname: user.lastname,
-                    email: user.lastname,
+                    email: user.email,
                     role: user.role
                 }
 
@@ -166,6 +166,44 @@ module.exports = {
     },
 
     async refreshToken(req, res) {
+        try {
+            const { refresh_token } = req.query
 
+            if (!refresh_token) {
+                res.status(400).json({
+                    success: false,
+                    message: 'BadRequest',
+                    data: {}
+                })
+            } else {
+                await jwt_helper.verifyRefreshToken(refresh_token).then(async (response) => {
+                    const user = await UserModel.findById({ _id: response })
+                    /// token data
+                    const tokenData = {
+                        id: user._id,
+                        name: user.name,
+                        lastname: user.lastname,
+                        email: user.email,
+                        role: user.role
+                    }
+
+                    /// create token
+                    const generated_token = await jwt_helper.signAccessToken(tokenData)
+                    const generated_refresh_token = await jwt_helper.signRefreshToken(tokenData)
+
+                    res.status(200).json({
+                        success: true,
+                        message: 'new generated token',
+                        data: {
+                            token: generated_token,
+                            refresh_token: generated_refresh_token
+                        }
+                    })
+                })
+            }
+        } catch (err) {
+            /// internal error
+            validations.validateResponse(res, err ?? 'Error while validating token')
+        }
     }
 }

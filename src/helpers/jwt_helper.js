@@ -73,18 +73,10 @@ module.exports = {
                 refreshToken,
                 process.env.REFRESH_TOKEN_SECRET,
                 (err, payload) => {
-                    if (err) return reject(createError.Unauthorized())
-                    const userId = payload.aud
                     if (err) {
-                        reject(res.status(400).json({
-                            success: false,
-                            message: err.message,
-                            data: {}
-                        }))
-                        return
+                        return reject(createError.Unauthorized())
                     }
-                    if (refreshToken === result) return resolve(userId)
-                    reject(createError.Unauthorized())
+                    return resolve(payload.id)
                 }
             )
         })
