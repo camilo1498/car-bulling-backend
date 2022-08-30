@@ -17,13 +17,22 @@ const userSchema = new Schema({
     gender: String,
     phoneNumber: String,
     address: String,
-    favourites: String,
-    saved: String,
     chats: String,
     role: [{
         type: Schema.Types.ObjectId,
         ref: 'user_role'
+    }],
+    liked_post: [{
+        type: Schema.Types.ObjectId,
+        ref: 'post'
+    }],
+    saved_post: [{
+        type: Schema.Types.ObjectId,
+        ref: 'post'
     }]
+}, {
+    timestamps: true,
+    versionKey: false
 })
 
 userSchema.set('toJSON', {

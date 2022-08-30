@@ -6,11 +6,11 @@ const validateEmail = (email) => {
       );
   };
 
-  const validateResponse = (res, message) => {
+  const validateResponse = (res, message, data) => {
     return res.status(400).json({
         success: false,
         message: String(message),
-        data: []
+        data: data ?? {}
     })
   }
 
