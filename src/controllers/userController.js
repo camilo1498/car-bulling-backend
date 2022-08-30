@@ -60,8 +60,8 @@ module.exports = {
                     })
                 })
             }
-        } catch (e) { /// inernal error
-            validations.validateResponse(res, e ?? "error while user registration, please contact with support")
+        } catch (err) { /// inernal error
+            validations.validateResponse(res, err ?? "error while user registration, please contact with support")
         }
     },
 
@@ -109,7 +109,7 @@ module.exports = {
                 })
             }
         } catch (err) { /// inernal error
-            validations.validateResponse(res, e ?? "error in user login")
+            validations.validateResponse(res, err ?? "error in user login")
         }
     },
 
