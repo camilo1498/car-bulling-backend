@@ -67,7 +67,7 @@ module.exports = {
             /// get and save http param into a variable
             const { id } = req.query
 
-            // DV query
+            // DB query
             await VehicleTypeModel.findByIdAndDelete({ _id: id })
                 /// success response
                 .then(response => {
